@@ -1,0 +1,58 @@
+shared:
+  ingress_domain: "tanzu.demo"
+  ingress_issuer: "my-ca-issuer" # Optional, can denote a cert-manager.io/v1/ClusterIssuer of your choice. Defaults to "tap-ingress-selfsigned".
+
+  image_registry: 
+    project_path: "https://harbor.tanzu.demo/tap"
+    username: "admin"
+    password: "Harbor12345"
+  ca_cert_data: |
+
+
+ceip_policy_disclosed: true # Installation fails if this is not set to true. Not a string.
+
+profile: full # Can take iterate, build, run, view.
+
+supply_chain: basic # Can take basic, testing, testing_scanning.
+
+tap_gui:
+  app_config:
+    app:
+      baseUrl: https://tap-gui.tanzu.demo
+    integrations:
+      gitlab:
+      - host: gitlab.tanzu.demo
+        apiBaseUrl: https://gitlab.tanzu.demo/api/v4
+        token: ${gitlab_root_token}
+    auth:
+      providers:
+        gitlab:
+          development:
+            clientId: ${oauth_app_id}
+            clientSecret: ${oauth_app_secret}
+            ## uncomment if using self-hosted GitLab
+            audience: https://gitlab.tanzu.demo
+            ## uncomment if using a custom redirect URI
+            callbackUrl: https://tap-gui.tanzu.demo/api/auth/gitlab/handler/frame
+    catalog:
+      locations:
+        - type: url
+          target: https://gitlab.tanzu.demo/tanzu/tap-catalog/-/blob/main/catalog-info.yaml
+contour:
+  envoy:
+    service:
+      type: LoadBalancer # This is set by default, but can be overridden by setting a different value.
+
+buildservice:
+  kp_default_repository: "harbor.tanzu.demo/tap/build-service"
+  kp_default_repository_username: "admin"
+  kp_default_repository_password: "Harbor12345"
+  exclude_dependencies: true
+  
+package_overlays:
+  - name: "contour"
+    secrets:
+    - name: "envoy-gitlab-ssh-config-secret"
+
+metadata_store:
+  ns_for_export_app_cert: "*"

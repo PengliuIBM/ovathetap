@@ -1,0 +1,30 @@
+shared:
+  ingress_domain: "tanzu.demo"
+  ingress_issuer: "my-ca-issuer" # Optional, can denote a cert-manager.io/v1/ClusterIssuer of your choice. Defaults to "tap-ingress-selfsigned".
+
+  image_registry: 
+    project_path: "https://harbor.tanzu.demo/tap"
+    username: "admin"
+    password: "Harbor12345"
+  ca_cert_data: |
+
+
+ceip_policy_disclosed: true # Installation fails if this is not set to true. Not a string.
+
+profile: full # Can take iterate, build, run, view.
+
+supply_chain: basic # Can take testing, testing_scanning.
+
+contour:
+  envoy:
+    service:
+      type: LoadBalancer # This is set by default, but can be overridden by setting a different value.
+
+buildservice:
+  kp_default_repository: "harbor.tanzu.demo/tap/build-service"
+  kp_default_repository_username: "admin"
+  kp_default_repository_password: "Harbor12345"
+  exclude_dependencies: true
+
+metadata_store:
+  ns_for_export_app_cert: "*"
