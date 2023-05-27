@@ -1,5 +1,7 @@
 ## I have been pulled into other projects so not sure if or when I may be able to put time into this. Last I ran this, it worked fine for me but I did not test every aspect and I have had some reports of problems from people. So I hope this may be a valuable reference, but be aware I am not actively maintaining it and you may experience problems that I probably wont be able to help with. 
+## refer to blog: https://artfewell.com/blog/GitlabTapIntegration/
 # OvaTheTap
+
 The purpose of this document is to create a complete Full Profile installation for Tanzu Application Platform on a single VM.
 
 The project is currently focused on a single environment topology, using a single, minimal ubuntu desktop VM to install kubernetes and TAP on a single host. The instructions and assets provided here should work on an ubuntu host with sufficient resources and performance, regardless of whether it is on bare metal or any virtualization platform, but the user may need to adjust some values for different environments.
